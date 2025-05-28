@@ -20,6 +20,36 @@ This project implements an ERC721 token contract with enforced royalties using O
 npm install
 ```
 
+## Using BuildBear for Testing
+
+1. Go to [BuildBear.io](https://buildbear.io)
+2. Fork Ethereum mainnet
+3. Once forked, you'll get:
+   - RPC URL
+   - Chain ID
+   - Explorer URL
+4. Update your `hardhat.config.js` with the BuildBear network:
+```javascript
+module.exports = {
+  networks: {
+    buildbear: {
+      url: "YOUR_BUILDBEAR_RPC_URL",
+      chainId: YOUR_CHAIN_ID,
+      accounts: [process.env.PRIVATE_KEY]
+    }
+  }
+}
+```
+
+### Getting Test ETH
+
+Before running the scripts:
+1. Go to your BuildBear dashboard
+2. Use the faucet to send test ETH to:
+   - Your deployer address (for contract deployment)
+   - Your buyer address (for testing purchases)
+   - Your royalty receiver address
+
 ## Available Scripts
 
 ### Compile Contracts
@@ -30,7 +60,7 @@ npx hardhat compile
 ### Deploy Contract
 Deploys the ERC721 contract with enforced royalties:
 ```bash
-npx hardhat run scripts/deployERC721.js --network <network_name>
+npx hardhat run scripts/deployERC721.js --network buildbear
 ```
 This script:
 - Deploys the ERC721 contract with enforced royalties
@@ -41,7 +71,7 @@ This script:
 ### Interact with Contract
 Tests the full NFT lifecycle including minting and selling:
 ```bash
-npx hardhat run scripts/interactERC721.js --network <network_name>
+npx hardhat run scripts/interactERC721.js --network buildbear
 ```
 This script:
 - Mints a new NFT
@@ -53,7 +83,7 @@ This script:
 ### Check Royalty Payment
 Verifies royalty payments:
 ```bash
-npx hardhat run scripts/checkRoyaltyPayment.js --network <network_name>
+npx hardhat run scripts/checkRoyaltyPayment.js --network buildbear
 ```
 This script:
 - Checks royalty information for a specific token
@@ -103,3 +133,4 @@ REPORT_GAS=true npx hardhat test
 - The contract uses OpenSea's Seaport v1.6 for marketplace integration
 - Royalties are set to 5% by default but can be modified during deployment
 - Transfer security is implemented using OpenSea's validator
+- For testing, use BuildBear's forked Ethereum network to avoid using real ETH
