@@ -1030,42 +1030,6 @@
       "artifacts": [
         "console"
       ]
-    },
-    "/Users/paulsocarde/Desktop/enforced_royalties/contracts/interfaces/IWETH.sol": {
-      "lastModificationDate": 1748384214776,
-      "contentHash": "31e21a07d4b7a0f0dcb2b16cd9b50636",
-      "sourceName": "contracts/interfaces/IWETH.sol",
-      "solcConfig": {
-        "version": "0.8.27",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.27"
-      ],
-      "artifacts": [
-        "IWETH"
-      ]
     }
   }
 }

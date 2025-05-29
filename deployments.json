@@ -1,12 +1,12 @@
 {
   "buildbear": {
     "ERC721_Enforced_Royalties": {
-      "address": "0x345fEAAa4376E926A0955691D3c06ade340b89dD",
+      "address": "0xD5516C81fDAFe278167557EA398A786752f77fb5",
       "deployer": "0xEf4D1e28D2932B0679F4BAE796bC02AB95Bd554A",
       "validator": "0x721C002B0059009a671D00aD1700c9748146cd1B",
       "royaltyReceiver": "0x18fbb6C15F298D19862F929888A86c623adb0902",
       "royaltyFee": 500,
-      "deployedAt": "2025-05-29T10:16:01.697Z"
+      "deployedAt": "2025-05-29T10:22:06.358Z"
     }
   }
 }
