@@ -1,3 +1,8 @@
+// Run all the scripts in the correct order
+// 1. Deploy ERC721 Contract
+// 2. Interact with ERC721 Contract
+// 3. Check Royalty Payment
+
 require("dotenv").config();
 const { execSync } = require("child_process");
 const path = require("path");

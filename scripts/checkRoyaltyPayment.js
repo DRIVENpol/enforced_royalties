@@ -24,8 +24,16 @@ async function main() {
   const contract = await hre.ethers.getContractAt("ERC721_Enforced_Royalties", contractAddress);
   console.log("✅ Connected to ERC721 contract");
 
-  // Get royalty info for token ID 2 (the one we just sold)
-  const tokenId = 2;
+  // Get total supply to determine the latest token ID
+  const totalSupply = await contract.totalSupply();
+  if (totalSupply === 0n) {
+    throw new Error("No tokens have been minted yet");
+  }
+
+  // The token ID will be totalSupply - 1 (since token IDs start at 0)
+  const tokenId = totalSupply - 1n;
+  console.log(`\n📝 Checking royalty info for token ID: ${tokenId}`);
+
   const royaltyInfo = await contract.royaltyInfo(tokenId, hre.ethers.parseEther("1.0"));
   const royaltyReceiver = royaltyInfo[0];
   const royaltyAmount = royaltyInfo[1];
