@@ -10,6 +10,9 @@ This project implements an ERC721 token contract with enforced royalties using O
   ```
   ROYALTY_ADDRESS=<address_to_receive_royalties>
   BUYER=<private_key_of_buyer_wallet>
+  DEPLOYER=<private_key_of_deployer_wallet>
+  BUILDBEAR_RPC_URL=<your_buildbear_rpc_url>
+  BUILDBEAR_CHAIN_ID=<your_buildbear_chain_id>
   ```
 
 ## Installation
@@ -28,17 +31,10 @@ npm install
    - RPC URL
    - Chain ID
    - Explorer URL
-4. Update your `hardhat.config.js` with the BuildBear network:
-```javascript
-module.exports = {
-  networks: {
-    buildbear: {
-      url: "YOUR_BUILDBEAR_RPC_URL",
-      chainId: YOUR_CHAIN_ID,
-      accounts: [process.env.PRIVATE_KEY]
-    }
-  }
-}
+4. Update your `.env` file with the BuildBear credentials:
+```
+BUILDBEAR_RPC_URL=your_rpc_url
+BUILDBEAR_CHAIN_ID=your_chain_id
 ```
 
 ### Getting Test ETH
@@ -69,7 +65,7 @@ This script:
 - Saves deployment information to `deployments.json`
 
 ### Interact with Contract
-Tests the full NFT lifecycle including minting and selling:
+Tests the full NFT lifecycle including minting, selling, and royalty verification:
 ```bash
 npx hardhat run scripts/interactERC721.js --network buildbear
 ```
@@ -79,16 +75,8 @@ This script:
 - Creates a Seaport listing order
 - Simulates a purchase with royalty distribution
 - Verifies balances and ownership
-
-### Check Royalty Payment
-Verifies royalty payments:
-```bash
-npx hardhat run scripts/checkRoyaltyPayment.js --network buildbear
-```
-This script:
-- Checks royalty information for a specific token
-- Verifies royalty receiver and amounts
-- Displays payment distribution details
+- Checks royalty payments by comparing initial and final balances
+- Provides detailed transaction information and status
 
 ## Contract Features
 
@@ -97,34 +85,20 @@ This script:
 - Transfer security controls
 - Royalty enforcement (5% by default)
 - URI storage for metadata
+- Automatic royalty verification
 
 ## Network Configuration
 
-The project is configured to work with multiple networks. Update the `hardhat.config.js` file to add your network configurations.
-
-## Testing
-
-Run the test suite:
-```bash
-npx hardhat test
-```
-
-Run tests with gas reporting:
-```bash
-REPORT_GAS=true npx hardhat test
-```
+The project is configured to work with BuildBear's forked Ethereum network. The configuration is handled through environment variables in the `.env` file.
 
 ## Project Structure
 
 ```
 ├── contracts/
-│   ├── ERC721_Enforced_Royalties.sol    # Main NFT contract
-│   └── interfaces/                      # Contract interfaces
+│   └── ERC721_Enforced_Royalties.sol    # Main NFT contract
 ├── scripts/
 │   ├── deployERC721.js                  # Deployment script
-│   ├── interactERC721.js                # Interaction script
-│   └── checkRoyaltyPayment.js           # Royalty verification script
-├── test/                                # Test files
+│   └── interactERC721.js                # Interaction and royalty verification script
 └── deployments.json                     # Deployment information
 ```
 
@@ -134,3 +108,5 @@ REPORT_GAS=true npx hardhat test
 - Royalties are set to 5% by default but can be modified during deployment
 - Transfer security is implemented using OpenSea's validator
 - For testing, use BuildBear's forked Ethereum network to avoid using real ETH
+- The interaction script now includes built-in royalty verification
+- All transactions and balances are logged for easy tracking
