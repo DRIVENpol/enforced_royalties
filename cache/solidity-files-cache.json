@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/paulsocarde/Desktop/enforced_royalties/contracts/ERC721_Enforced_Royalties.sol": {
-      "lastModificationDate": 1748384213961,
-      "contentHash": "66061f7a3ca45bd9be739fbd7c5fae13",
+      "lastModificationDate": 1748514580642,
+      "contentHash": "ec0a63caed67bfbddb28689e7091fd77",
       "sourceName": "contracts/ERC721_Enforced_Royalties.sol",
       "solcConfig": {
         "version": "0.8.27",

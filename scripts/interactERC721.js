@@ -37,16 +37,24 @@ async function main() {
   console.log("📤 Using deployer address:", deployer.address);
   console.log("📤 Using buyer address:", buyer.address);
 
-  // Check balances
-  const deployerBalance = await hre.ethers.provider.getBalance(deployer.address);
-  const buyerBalance = await hre.ethers.provider.getBalance(buyer.address);
-  console.log("\n💰 Initial Balances:");
-  console.log("Deployer:", hre.ethers.formatEther(deployerBalance), "ETH");
-  console.log("Buyer:", hre.ethers.formatEther(buyerBalance), "ETH");
-
   // Connect to the contracts
   const contract = await hre.ethers.getContractAt("ERC721_Enforced_Royalties", contractAddress);
   console.log("✅ Connected to ERC721 contract");
+
+  // Get royalty info for token ID 0 to get the receiver address
+  const royaltyInfo = await contract.royaltyInfo(0, hre.ethers.parseEther("1.0"));
+  const royaltyReceiver = royaltyInfo[0];
+  console.log("📝 Royalty receiver:", royaltyReceiver);
+
+  // Check initial balances
+  const deployerBalance = await hre.ethers.provider.getBalance(deployer.address);
+  const buyerBalance = await hre.ethers.provider.getBalance(buyer.address);
+  const initialRoyaltyBalance = await hre.ethers.provider.getBalance(royaltyReceiver);
+  
+  console.log("\n💰 Initial Balances:");
+  console.log("Deployer:", hre.ethers.formatEther(deployerBalance), "ETH");
+  console.log("Buyer:", hre.ethers.formatEther(buyerBalance), "ETH");
+  console.log("Royalty Receiver:", hre.ethers.formatEther(initialRoyaltyBalance), "ETH");
 
   // Verify ownership
   const owner = await contract.owner();
@@ -111,10 +119,8 @@ async function main() {
     // Get royalty info
     const oneEth = hre.ethers.parseEther("1.0");
     const royaltyInfo = await contract.royaltyInfo(tokenId, oneEth);
-    const royaltyReceiver = royaltyInfo[0];
     const royaltyAmount = royaltyInfo[1];
     console.log("\n📝 Royalty Info:");
-    console.log("Receiver:", royaltyReceiver);
     console.log("Amount for 1 ETH:", hre.ethers.formatEther(royaltyAmount), "ETH");
 
     // Calculate amounts for 50 ETH sale
@@ -214,9 +220,24 @@ async function main() {
     // Check final balances
     const finalDeployerBalance = await hre.ethers.provider.getBalance(deployer.address);
     const finalBuyerBalance = await hre.ethers.provider.getBalance(buyer.address);
+    const finalRoyaltyBalance = await hre.ethers.provider.getBalance(royaltyReceiver);
+    
     console.log("\n💰 Final Balances:");
     console.log("Deployer:", hre.ethers.formatEther(finalDeployerBalance), "ETH");
     console.log("Buyer:", hre.ethers.formatEther(finalBuyerBalance), "ETH");
+    console.log("Royalty Receiver:", hre.ethers.formatEther(finalRoyaltyBalance), "ETH");
+
+    // Check if royalties were received
+    const royaltyReceived = finalRoyaltyBalance - initialRoyaltyBalance;
+    console.log("\n📊 Royalties Status:");
+    if (royaltyReceived >= royaltyAmountForSale) {
+      console.log("✅ Royalties received successfully!");
+      console.log("Amount received:", hre.ethers.formatEther(royaltyReceived), "ETH");
+    } else {
+      console.log("❌ Royalties not received as expected!");
+      console.log("Expected:", hre.ethers.formatEther(royaltyAmountForSale), "ETH");
+      console.log("Received:", hre.ethers.formatEther(royaltyReceived), "ETH");
+    }
   } catch (error) {
     console.error("❌ Error during minting or order creation:", error.message);
     if (error.data) {

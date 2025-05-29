@@ -16,7 +16,7 @@ async function main() {
 
     const ROYALTY_FEE = 500; // 5%
     const royaltyReceiver = process.env.ROYALTY_ADDRESS;
-    const validator = "0x721C002B0059009a671D00aD1700c9748146cd1B"; // Example validator
+    const validator = "0x721C002B0059009a671D00aD1700c9748146cd1B"; // Mainnet validator
 
     if (!royaltyReceiver) throw new Error("Missing ROYALTY_ADDRESS in .env");
 

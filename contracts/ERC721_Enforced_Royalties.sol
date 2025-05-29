@@ -17,7 +17,7 @@ interface ICreatorToken {
     function setTransferValidator(address validator) external;
 }
 
-// Step 3: Inherit from ERC2981 and ERC721-C interfaces (only ICreatorToken)
+// Step 3: Inherit from ERC2981 and ERC721-C interfaces
 contract ERC721_Enforced_Royalties is ERC721, ERC721Enumerable, ERC721URIStorage, ERC2981, ICreatorToken, Ownable {
 
     // Step 4: Declare the transferValidator variable
